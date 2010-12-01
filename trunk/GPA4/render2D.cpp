@@ -63,7 +63,7 @@ void render2D::paintEvent(QPaintEvent*) {
 }
 
 QBrush render2D::getColor(char s) {
-    if (s ==  'R') {
+    if (s == 'R') {
         return Qt::red;
     }
     else if (s == 'Y') {

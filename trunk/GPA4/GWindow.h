@@ -11,15 +11,18 @@
 #include <QMainWindow>
 #include <QtGui>
 #include "render2D.h"
+#include "render3D.h"
 
 class GWindow : public QWidget {
     Q_OBJECT
 public:
     GWindow();
     void create2Dview();
+    void create3Dview();
     virtual ~GWindow();
 private:
     void createConnectionMenu();
+    void createResponseMenu();
 
     QGroupBox* horizontalGroupBox;
     QLabel* serverLabel;
@@ -28,7 +31,15 @@ private:
     QTextEdit* portText;
     QPushButton* connectButton;
 
+    QGroupBox* gridGroupBox;
+    QLabel* sequenceLabel;
+    QTextEdit* sequenceText;
+    QLabel* stateLabel;
+    QTextEdit* stateText;
+    QLabel* outcomeLabel;
+    
     render2D* r2;
+    render3D* r3;
 };
 
 #endif	/* _GWINDOW_H */

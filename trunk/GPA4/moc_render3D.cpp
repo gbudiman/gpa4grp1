@@ -1,15 +1,15 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'GWindow.h'
+** Meta object code from reading C++ file 'render3D.h'
 **
-** Created: Tue Nov 30 23:04:46 2010
+** Created: Tue Nov 30 22:46:46 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "GWindow.h"
+#include "render3D.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'GWindow.h' doesn't include <QObject>."
+#error "The header file 'render3D.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
 #error "This file was generated using the moc from 4.6.2. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -17,7 +17,7 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-static const uint qt_meta_data_GWindow[] = {
+static const uint qt_meta_data_render3D[] = {
 
  // content:
        4,       // revision
@@ -33,33 +33,33 @@ static const uint qt_meta_data_GWindow[] = {
        0        // eod
 };
 
-static const char qt_meta_stringdata_GWindow[] = {
-    "GWindow\0"
+static const char qt_meta_stringdata_render3D[] = {
+    "render3D\0"
 };
 
-const QMetaObject GWindow::staticMetaObject = {
-    { &QWidget::staticMetaObject, qt_meta_stringdata_GWindow,
-      qt_meta_data_GWindow, 0 }
+const QMetaObject render3D::staticMetaObject = {
+    { &QWidget::staticMetaObject, qt_meta_stringdata_render3D,
+      qt_meta_data_render3D, 0 }
 };
 
 #ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &GWindow::getStaticMetaObject() { return staticMetaObject; }
+const QMetaObject &render3D::getStaticMetaObject() { return staticMetaObject; }
 #endif //Q_NO_DATA_RELOCATION
 
-const QMetaObject *GWindow::metaObject() const
+const QMetaObject *render3D::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
 }
 
-void *GWindow::qt_metacast(const char *_clname)
+void *render3D::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_GWindow))
-        return static_cast<void*>(const_cast< GWindow*>(this));
+    if (!strcmp(_clname, qt_meta_stringdata_render3D))
+        return static_cast<void*>(const_cast< render3D*>(this));
     return QWidget::qt_metacast(_clname);
 }
 
-int GWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int render3D::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
     if (_id < 0)
