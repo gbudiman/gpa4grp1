@@ -6,13 +6,16 @@
  */
 
 #include <QtGui/QApplication>
+#include "GWindow.h"
+#include "render2D.h"
 
 int main(int argc, char *argv[]) {
     // initialize resources, if needed
     // Q_INIT_RESOURCE(resfile);
 
     QApplication app(argc, argv);
-
+    GWindow gwindow;
+    gwindow.show();
     // create and show your widgets here
 
     return app.exec();
