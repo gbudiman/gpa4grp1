@@ -22,9 +22,6 @@ GWindow::GWindow() {
     setWindowTitle("GPA 4 Group 1");
 }
 
-//GWindow::GWindow(const GWindow& orig) {
-//}
-
 void GWindow::createConnectionMenu() {
     horizontalGroupBox = new QGroupBox("Connection");
     QHBoxLayout* layout = new QHBoxLayout;
@@ -51,6 +48,9 @@ void GWindow::createConnectionMenu() {
 void GWindow::create2Dview() {
     r2 = new render2D();
     r2->setState("YYYYYYYYYBBBBBBBBBGGGGGGGGGOOOOOOOOOWWWWWWWWWRRRRRRRRR");
+    r2->setMinimumHeight(400);
+    r2->setMinimumWidth(400);
+    r2->update();
 }
 
 GWindow::~GWindow() {

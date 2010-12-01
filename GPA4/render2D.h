@@ -14,9 +14,10 @@ using namespace std;
 class render2D : public QWidget {
     Q_OBJECT
 public:
-    render2D();
+    render2D(QWidget* parent = 0);
     virtual ~render2D();
     void setState(string state);
+    QBrush getColor(char s);
 protected:
     void paintEvent(QPaintEvent* event);
 private:
