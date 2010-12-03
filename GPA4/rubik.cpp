@@ -11,7 +11,7 @@
 #include <QtCore>
 
 rubik::rubik() {
-	// TODO Auto-generated constructor stub
+	
 	for (int cell = 0; cell < 9; cell++) {
 		cube[0][cell] = 'Y';
 		cube[1][cell] = 'R';

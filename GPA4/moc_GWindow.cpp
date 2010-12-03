@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'GWindow.h'
 **
-** Created: Tue Nov 30 23:04:46 2010
-**      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
+** Created: Wed Dec 1 14:39:24 2010
+**      by: The Qt Meta Object Compiler version 59 (Qt 4.4.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -10,8 +10,8 @@
 #include "GWindow.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'GWindow.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 62
-#error "This file was generated using the moc from 4.6.2. It"
+#elif Q_MOC_OUTPUT_REVISION != 59
+#error "This file was generated using the moc from 4.4.3. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -20,15 +20,12 @@ QT_BEGIN_MOC_NAMESPACE
 static const uint qt_meta_data_GWindow[] = {
 
  // content:
-       4,       // revision
+       1,       // revision
        0,       // classname
        0,    0, // classinfo
        0,    0, // methods
        0,    0, // properties
        0,    0, // enums/sets
-       0,    0, // constructors
-       0,       // flags
-       0,       // signalCount
 
        0        // eod
 };
@@ -42,13 +39,9 @@ const QMetaObject GWindow::staticMetaObject = {
       qt_meta_data_GWindow, 0 }
 };
 
-#ifdef Q_NO_DATA_RELOCATION
-const QMetaObject &GWindow::getStaticMetaObject() { return staticMetaObject; }
-#endif //Q_NO_DATA_RELOCATION
-
 const QMetaObject *GWindow::metaObject() const
 {
-    return QObject::d_ptr->metaObject ? QObject::d_ptr->metaObject : &staticMetaObject;
+    return &staticMetaObject;
 }
 
 void *GWindow::qt_metacast(const char *_clname)
