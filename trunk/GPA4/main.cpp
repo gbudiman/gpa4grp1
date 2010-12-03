@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
     GWindow gwindow;
+   // connect(&socket, SIGNAL(setGUIstate(string state),&gWindow,create2Dview(state) 
     gwindow.show();
     // create and show your widgets here
 
