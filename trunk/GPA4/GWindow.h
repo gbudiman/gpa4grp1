@@ -28,6 +28,10 @@ public slots:
     void reset3dState();
     void displayOutcome(bool k);
 */
+
+private slots:
+    void returnConnectionData();
+
 private:
     void createConnectionMenu();
     void createResponseMenu();
@@ -46,9 +50,13 @@ private:
     QTextEdit* stateText;
     QLabel* outcomeLabel;
     
+    GPA4Client * client;
     render2D* r2;
     render3D* r3;
     string state;	
+
+signals:
+    void sendConnectionData(string port, string server);
 };
 
 #endif	/* _GWINDOW_H */

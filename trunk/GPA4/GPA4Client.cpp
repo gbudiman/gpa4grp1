@@ -1,26 +1,38 @@
-#include <QtGui>
-#include <QtNetwork>
+#include <Qt/QtGui>
+#include <string>
 
-#include "ClientSocket.h"
+#include "GPA4Client.h"
 #include "rubik.h"
 
-GPA4Client::GPA4Client(QWdiget *parent) : networkSession(0)
+GPA4Client::GPA4Client(QWidget *parent) //: QtNetworkSession(0)
 {
 socket = new QTcpSocket(this);
 state_cube = new rubik();
-temp_state = new string(54,"Y");
+temp_state = new string("Y",54);
 
 connect(socket, SIGNAL(readyRead()), this, SLOT(getCommand()) );
 connect(socket, SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(displayError(QAbstractSocket::SocketError)));
 
 }
 
+void GPA4Client::updateConnectionData(string port, string server){
+  if(port_data == NULL){
+  port_data = new string(port);
+  server_data = new string(server); 
+  }else{
+  *port_data = port;
+  *server_data = server;
+  }
+}
+
 void GPA4Client::connectToHost()
 {
 
-connectButton->setEnabled(false);
-socket->abort();
-socket->connectToHost(serverLineEdit->text(), portLineEdit->text().toInt());
+  socket->abort();
+  emit getConnectionData();
+  sleep(200);
+  string s = *port_data;
+  socket->connectToHost(*server_data, atoi(s.c_str()));
 
 }
 
