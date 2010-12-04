@@ -27,6 +27,11 @@ GWindow::GWindow() {
     mainLayout->addWidget(gridGroupBox);
     setLayout(mainLayout);
     setWindowTitle("GPA 4 Group 1");
+    
+    client = new GPA4Client(this);
+
+    connect(this,SIGNAL(sendConnectionData(string,string)),client,SLOT(updateConnectionData(string,string)));
+    connect(client,SIGNAL(getConnectionData()),this,SLOT(returnConnectionData()));
 }
 
 void GWindow::createConnectionMenu() {
@@ -73,6 +78,10 @@ void GWindow::create2Dview() {
     r2->setMinimumHeight(300);
     r2->setMinimumWidth(400);
     r2->update();
+}
+
+void GWindow::returnConnectionData(){
+  emit sendConnectionData(portText->text(),serverText->text());
 }
 
 void GWindow::create3Dview() {
