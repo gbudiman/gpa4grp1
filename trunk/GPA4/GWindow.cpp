@@ -6,6 +6,7 @@
  */
 
 #include "GWindow.h"
+#include "GPA4Client.h"
 #include "render2D.h"
 #include "render3D.h"
 #include <QtGui>
@@ -32,6 +33,32 @@ GWindow::GWindow() {
 
     connect(this,SIGNAL(sendConnectionData(string,string)),client,SLOT(updateConnectionData(string,string)));
     connect(client,SIGNAL(getConnectionData()),this,SLOT(returnConnectionData()));
+    connect(client,SIGNAL(errorConnecting(int)),this,SLOT(connectionError(int)));
+    connect(client, SIGNAL(weWon(bool)),this,SLOT(displayOutcome(bool)));
+    connect(client, SIGNAL(setGUIState(string)),this,SLOT(updateGuiState(string)));
+}
+
+void GWindow::connectionError(int type){
+  switch(type) {
+
+
+   case 1:
+     QMessageBox::information(this, tr("GPA4 Group 1 Client"),
+ 			     tr("The host was not found. Please check the "
+ 				"host name and port settings."));
+     break;
+   case 2:
+     QMessageBox::information(this,tr("GPA4 Group 1 Client"),
+ 			     tr("The connection was refused by the peer. "
+ 				"Make sure the peer server is running, and"
+ 				"check that the host name and port settings"
+ 				"are correct."));
+     break;
+   default:
+     break;
+  }
+   connectButton->setEnabled(true);
+
 }
 
 void GWindow::createConnectionMenu() {
@@ -56,10 +83,16 @@ void GWindow::createConnectionMenu() {
 
     horizontalGroupBox->setLayout(layout);
 }
-/*
-void GWindow::update2dState(string s){
+
+void GWindow::updateGuiState(string s){
+  //update the 2d viewer
   r2->setState(s);
+  //update the 3d viewer
+  temp_cube.setState(s);
+  r3->setCube(&temp_cube);
 }
+
+/*
 void GWindow::update3dState(string s){
   precube->setState(s);
 }
@@ -73,7 +106,6 @@ void GWindow::reset3dState(){
 void GWindow::create2Dview() {
     r2 = new render2D();
     r2->setState("OYYBYYBYYBRRBRRBRRYGGYGGYRROOOOOOGGGBBWBBWOOWGWWGWWRWW");
-  //  connect(client, SIGNAL(client::setGUIState(string)),this,SLOT(update2dState(string)));
    // connect(client, SIGNAL(client::resetGUIState(string)),this,SLOT(reset2dState(string)));
     r2->setMinimumHeight(300);
     r2->setMinimumWidth(400);
@@ -81,7 +113,7 @@ void GWindow::create2Dview() {
 }
 
 void GWindow::returnConnectionData(){
-  emit sendConnectionData(portText->text(),serverText->text());
+  emit sendConnectionData(portText->text().toStdString(),serverText->text().toStdString());
 }
 
 void GWindow::create3Dview() {
@@ -104,13 +136,13 @@ void GWindow::create3Dview() {
     r3->setMinimumWidth(400);
     r3->update();
 }
-/*
-void displayOutcome(bool k){
-    if(k == true) {
-        outcomeLabel->setText("We won!");}
+
+void GWindow::displayOutcome(bool k){
+    if(k) {
+       outcomeLabel->setText("We won!");}
     else {
-       outcomeLabel->setText("We Lost");}
-}*/
+       outcomeLabel->setText("We lost");}
+}
 
 void GWindow::createResponseMenu() {
     gridGroupBox = new QGroupBox();
@@ -124,7 +156,6 @@ void GWindow::createResponseMenu() {
     stateText->setReadOnly(true);
     stateText->setMaximumSize(400, 80);
     outcomeLabel = new QLabel("<Outcome>");
-   // connect(client, SIGNAL(client::weWon(bool)),outcomeLabel,displayOutcome(bool));
     layout->addWidget(sequenceLabel, 0, 0);
     layout->addWidget(sequenceText, 0, 1);
     layout->addWidget(stateLabel, 1, 0);

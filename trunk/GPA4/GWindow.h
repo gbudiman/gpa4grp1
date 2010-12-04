@@ -13,6 +13,9 @@
 #include "render2D.h"
 #include "render3D.h"
 #include <string>
+#include "GPA4Client.h"
+
+//class GPA4Client;
 class GWindow : public QWidget {
     Q_OBJECT
 public:
@@ -31,6 +34,9 @@ public slots:
 
 private slots:
     void returnConnectionData();
+    void connectionError(int type);
+    void displayOutcome(bool k);
+    void updateGuiState(string s);
 
 private:
     void createConnectionMenu();
@@ -53,8 +59,9 @@ private:
     GPA4Client * client;
     render2D* r2;
     render3D* r3;
-    string state;	
-
+    string state;
+    rubik temp_cube;
+	
 signals:
     void sendConnectionData(string port, string server);
 };
