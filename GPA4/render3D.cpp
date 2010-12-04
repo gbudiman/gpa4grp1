@@ -172,4 +172,5 @@ QBrush render3D::getColor(char c) {
         case 'W': return Qt::white;
         case 'G': return QBrush(QColor(0, 255, 0));
     }
+    return(Qt::yellow);
 }
