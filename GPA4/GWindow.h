@@ -20,13 +20,14 @@ public:
     void create2Dview();
     void create3Dview();
     virtual ~GWindow();
-
-public slot:
+/*
+public slots:
     void update2dState(string s);
     void update3dState(string s);
     void reset2dState();
     void reset3dState();
     void displayOutcome(bool k);
+*/
 private:
     void createConnectionMenu();
     void createResponseMenu();
@@ -34,8 +35,8 @@ private:
     QGroupBox* horizontalGroupBox;
     QLabel* serverLabel;
     QLabel* portLabel;
-    QTextEdit* serverText;
-    QTextEdit* portText;
+    QLineEdit* serverText;
+    QLineEdit* portText;
     QPushButton* connectButton;
 
     QGroupBox* gridGroupBox;

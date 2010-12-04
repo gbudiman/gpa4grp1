@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'GWindow.h'
 **
-** Created: Wed Dec 1 14:39:24 2010
+** Created: Sat Dec 4 12:31:42 2010
 **      by: The Qt Meta Object Compiler version 59 (Qt 4.4.3)
 **
 ** WARNING! All changes made in this file will be lost!

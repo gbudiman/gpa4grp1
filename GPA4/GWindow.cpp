@@ -28,28 +28,17 @@ GWindow::GWindow() {
     setLayout(mainLayout);
     setWindowTitle("GPA 4 Group 1");
 }
-/*
-void GWindow::changeGUI(string s)
-{
-    r2 = new render2D();
-    r2->setState("OYYBYYBYYBRRBRRBRRYGGYGGYRROOOOOOGGGBBWBBWOOWGWWGWWRWW");
-    r2->setMinimumHeight(300);
-    r2->setMinimumWidth(400);
-    r2->update();
-
-
-}*/
 
 void GWindow::createConnectionMenu() {
     horizontalGroupBox = new QGroupBox("Connection");
     QHBoxLayout* layout = new QHBoxLayout;
 
     serverLabel = new QLabel("Server IP: ");
-    serverText = new QTextEdit();
+    serverText = new QLineEdit();
     serverText->setMaximumHeight(24);
     serverText->setMaximumWidth(128);
     portLabel = new QLabel("Port: ");
-    portText = new QTextEdit();
+    portText = new QLineEdit();
     portText->setMaximumHeight(24);
     portText->setMaximumWidth(64);
     connectButton = new QPushButton("Connect");
@@ -62,7 +51,7 @@ void GWindow::createConnectionMenu() {
 
     horizontalGroupBox->setLayout(layout);
 }
-
+/*
 void GWindow::update2dState(string s){
   r2->setState(s);
 }
@@ -74,13 +63,13 @@ void GWindow::reset2dState() {
 }
 void GWindow::reset3dState(){
   precube->setState("YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW");	
-}
+}*/
 
 void GWindow::create2Dview() {
     r2 = new render2D();
     r2->setState("OYYBYYBYYBRRBRRBRRYGGYGGYRROOOOOOGGGBBWBBWOOWGWWGWWRWW");
-    connect(client, SIGNAL(client::setGUIState(string)),this,SLOT(update2dState(string)));
-    connect(client, SIGNAL(client::resetGUIState(string)),this,SLOT(reset2dState(string)));
+  //  connect(client, SIGNAL(client::setGUIState(string)),this,SLOT(update2dState(string)));
+   // connect(client, SIGNAL(client::resetGUIState(string)),this,SLOT(reset2dState(string)));
     r2->setMinimumHeight(300);
     r2->setMinimumWidth(400);
     r2->update();
@@ -90,8 +79,8 @@ void GWindow::create3Dview() {
     r3 = new render3D();
     rubik* precube = new rubik();
     precube->setState("OYYBYYBYYBRRBRRBRRYGGYGGYRROOOOOOGGGBBWBBWOOWGWWGWWRWW");
-    connect(client, SIGNAL(client::setGUIState(string)),this,SLOT(update3dState(string)));
-    connect(client, SIGNAL(client::resetGUIState(string)),this,SLOT(reset2dState(string)));
+   // connect(client, SIGNAL(client::setGUIState(string)),this,SLOT(update3dState(string)));
+   // connect(client, SIGNAL(client::resetGUIState(string)),this,SLOT(reset2dState(string)));
     vector<int> aori;
     aori.push_back(0);
     aori.push_back(1);
@@ -106,12 +95,13 @@ void GWindow::create3Dview() {
     r3->setMinimumWidth(400);
     r3->update();
 }
+/*
 void displayOutcome(bool k){
     if(k == true) {
         outcomeLabel->setText("We won!");}
     else {
        outcomeLabel->setText("We Lost");}
-}
+}*/
 
 void GWindow::createResponseMenu() {
     gridGroupBox = new QGroupBox();
@@ -125,7 +115,7 @@ void GWindow::createResponseMenu() {
     stateText->setReadOnly(true);
     stateText->setMaximumSize(400, 80);
     outcomeLabel = new QLabel("<Outcome>");
-    connect(client, SIGNAL(client::weWon(bool)),outcomeLabel,displayOutcome(bool));
+   // connect(client, SIGNAL(client::weWon(bool)),outcomeLabel,displayOutcome(bool));
     layout->addWidget(sequenceLabel, 0, 0);
     layout->addWidget(sequenceText, 0, 1);
     layout->addWidget(stateLabel, 1, 0);
