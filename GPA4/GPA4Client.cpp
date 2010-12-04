@@ -16,14 +16,9 @@ connect(socket, SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(displayErr
 }
 
 void GPA4Client::updateConnectionData(string port, string server){
-  if(port_data == NULL){
-  port_data = new string(port);
-  server_data = new string(server); 
-  }else{
-  *port_data = port;
-  *server_data = server;
+    port_data = port;
+  server_data = server;
   }
-}
 
 void GPA4Client::connectToHost()
 {
@@ -31,8 +26,9 @@ void GPA4Client::connectToHost()
   socket->abort();
   emit getConnectionData();
   sleep(200);
-  string s = *port_data;
-  socket->connectToHost(*server_data, atoi(s.c_str()));
+  QString temp = QString::fromStdString(server_data);
+  string s = port_data;
+  socket->connectToHost(temp, atoi(s.c_str()));
 
 }
 

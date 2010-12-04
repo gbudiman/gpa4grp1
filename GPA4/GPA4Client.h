@@ -27,8 +27,8 @@ class GPA4Client : QObject
     QTcpSocket *socket;
     rubik *state_cube;   
     string *temp_state;
-    string * port_data;
-    string * server_data;
+    string  port_data;
+    string  server_data;
  
     //QNetworkSession *networkSession;
     void writeToServer(string message);
