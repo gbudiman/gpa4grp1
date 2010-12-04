@@ -25,25 +25,26 @@ void render3D::setCube(rubik* cube) {
 
 void render3D::paintEvent(QPaintEvent*) {
     QPainter painter(this);
-    painter.translate(0, 20);
+    //painter.translate(100,0);
     painter.shear(-1.75, 0);
     for (int i = 0; i < 9; i++) {
         painter.setBrush(Qt::black);
-        painter.drawRect(100 + i%3 * 30, i/3 * 12, 30, 12);
-        painter.fillRect(100 + i%3 * 30 + 1, i/3 * 12 + 1, 30-1, 12-1, getColor(getFaceCell("top", i)));
+        painter.drawRect(  i%3 * 9+113, i/3 * 25+266  , 9, 25);
+        painter.fillRect( i%3 * 9 + 114, i/3 * 25+267 , 9-1, 25-1, getColor(getFaceCell("right", i)));
     }
+    painter.translate(0, 0);
     painter.shear(1.75, 0);
     for (int i = 0; i < 9; i++) {
         painter.setBrush(Qt::black);
-        painter.drawRect(37 + i%3 * 30, 37 + i/3 * 30, 30, 30);
-        painter.fillRect(37 + i%3 * 30 + 1, 37 + i/3 * 30 + 1, 30-1, 30-1, getColor(getFaceCell("front", i)));
+        painter.drawRect(37 + i%3 * 25, 70 + i/3 * 25, 25, 25);
+        painter.fillRect(37 + i%3 * 25 + 1, 70 + i/3 * 25 + 1, 25-1, 25-1, getColor(getFaceCell("front", i)));
     }
     painter.shear(0, -0.58);
-    painter.translate(128, 53);
+    painter.translate(76, 1);
     for (int i = 0; i < 9; i++) {
         painter.setBrush(Qt::black);
-        painter.drawRect(i%3 * 21, 58 + i/3 * 30, 21, 30);
-        painter.fillRect(i%3 * 21 + 1, 58 + i/3 * 30 + 1, 21-1, 30-1, getColor(getFaceCell("right", i)));
+        painter.drawRect(i%3 * 25, i/3 * 15+23, 25, 15);
+        painter.fillRect(i%3 * 25 + 1, i/3 * 15 +23+ 1, 25-1, 15-1, getColor(getFaceCell("top", i)));
     }
     painter.setRenderHint(QPainter::Antialiasing, true);
 }

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'render3D.h'
 **
-** Created: Wed Dec 1 14:39:21 2010
+** Created: Sat Dec 4 10:25:17 2010
 **      by: The Qt Meta Object Compiler version 59 (Qt 4.4.3)
 **
 ** WARNING! All changes made in this file will be lost!
