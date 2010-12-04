@@ -2,6 +2,9 @@
 #include <QDialog>
 #include <vector>
 
+#include "rubik.h"
+
+#define DEFAULT_STATE "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW"
 
 class GPA4Client : QObject
 {
@@ -11,20 +14,24 @@ class GPA4Client : QObject
 
   private slots:
     void connectToHost();
-    void solvedPuzzle(vector<string> *);
+    void puzzleSolved(vector<string> *commands);
     void getCommand();
-    void writeToServer(string);
+    void displayError(QAbstractSocket::SocketError socketError);
     
   
   private:
     QTcpSocket *socket;
-    
+    rubik *state_cube;   
+    string *temp_state;
+ 
+    //QNetworkSession *networkSession;
+    void writeToServer(string message);
+     
 
 
   signals:
-    void setGUIState(string);
-    void resetGUIState();
-    void solvePuzzle(string);
+    void setGUIState(string state);
+    void solvePuzzle(string state, string allowed = NULL);
     void resetSolver();
-
+    void weWon(bool )
 }
