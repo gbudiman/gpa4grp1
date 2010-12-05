@@ -4,8 +4,6 @@
 #include <QList>
 #include <QStringList>
 
-#include <iostream>
-
 #include "GPA4Client.h"
 #include "rubik.h"
 
@@ -22,30 +20,18 @@ void GPA4Client::updateConnectionData(string port, string server){
   port_data = port;
   server_data = server;
   
-  cout << "updateConnectionData"<<endl;
-  cout << "port_data: "<< port_data << " server_data: " << server_data<<endl;
-  cout << "------------------------------" << endl;
   return;
 
   }
 
 void GPA4Client::connectToHost()
 {
-  cout << "trying to connect" <<endl;
   socket->abort();
   emit getConnectionData();
   QString temp = QString::fromStdString(server_data);
   string s = port_data;
 
-  cout<<"In connectToHost:";
-  cout<<s<<" "<<server_data<<endl;
-  cout<<"--------------"<<endl;
-
   socket->connectToHost(temp, atoi(s.c_str()));
-  
-  cout << "Connected to server" << endl;
-  cout << "-------------------" << endl;
-  
 }
 
 /* This private slot based strong on example found in QT4.7.1 Documentation */
@@ -73,52 +59,12 @@ void GPA4Client::getCommand()
   data[n] = '\0';
   string c(data, n);
   QString command = QString::fromStdString(c);
-  //command.append("\0");
   delete[] data;
-
-  /*QDataStream in(socket);
-  in.setVersion(QDataStream::Qt_4_0);
-   
-  cout << "In getCommand()" << endl;
- 
-  if (blockSize == 0) {
-    if (socket->bytesAvailable() < (int)sizeof(quint16)){
-      return;
-    }
-        in >> blockSize;
-        cout << "blockSize: " << blockSize << endl;
-  }
-  cout << "blockSize: " << blockSize << endl;
-  
-  if (socket->bytesAvailable() < blockSize){
-    cout << "bytes Available: " << socket->bytesAvailable() << endl;
-    return;
-  }
-
-  QString command;
-  in >> command;
-  
-  cout << "Got something" << endl;
-  cout << command.toStdString() << endl;
-  cout << "-------------------"<<endl;
-    
-  if(oldCommand == command){
-    QTimer::singleShot(0, this, SLOT(requestNewFortune()));
-    return;
-  }else{
-    blockSize = 0;
-  }*/
-  
-
-  cout << "Received Command" << endl;
-  cout << command.toStdString() << endl;
-  cout << "-------------------"<<endl;
 
   if(command.contains("ID?")){
     writeToServer("ID=1\n");
   }else if(command.contains("ACCEPTED.")){
   }else if(command.contains("READY?")){
-    emit setGUIState(DEFAULT_STATE,"");
     temp_state = DEFAULT_STATE;
     state_cube.setState(DEFAULT_STATE);
     writeToServer("READY\n");
@@ -132,17 +78,17 @@ void GPA4Client::getCommand()
 	vector<int> solutionInt;
         Search::readMoves(sol, solutionInt);
 	convertCommands(solutionInt, commands);   
-        puzzleSolved(commands);
+        puzzleSolved(commands, commandArgs.at(1).toStdString());
     }else{
 	string sol = Search::solution(commandArgs.at(1).toStdString(), 20);
 	vector<int> solutionInt;
         Search::readMoves(sol, solutionInt);    
         convertCommands(solutionInt, commands);
-        puzzleSolved(commands);
+        puzzleSolved(commands, commandArgs.at(1).toStdString());
     }
-  }else if(command.contains("g1:WIN")){
+  }else if(command.contains("1:WIN")){
     emit weWon(true);
-  }else if(command.contains("g1:LOSE")){
+  }else if(command.contains("1:LOSE")){
     emit weWon(false);
   }else if(command.contains("TIME:")){
   }else{
@@ -157,16 +103,13 @@ void GPA4Client::convertCommands(vector<int> & coded_cmd, vector<string> & comma
   }
 }
 
-void GPA4Client::puzzleSolved(vector<string> & commands){
+void GPA4Client::puzzleSolved(vector<string> & commands, string state){
   for (vector<string>::iterator iter = commands.begin(); iter != commands.end(); ++iter){
-    writeToServer("g1:" + *iter+"\n"); //send command to server 
-    //state_cube.process(*iter);         //perform command on local cube
-    //temp_state = state_cube.display(); //get current cube state
-    //sleep(500);
-    //emit setGUIState(temp_state, *iter);
+    writeToServer("1:" + *iter + "\n"); //send command to server 
   } 
 
-  writeToServer("g1:DONE\n");
+  writeToServer("1:DONE\n");
+  emit setGUIState(commands, state);
 
 }
  
@@ -177,9 +120,6 @@ void GPA4Client::writeToServer(string message){
   for( int i = 0; i < temp_len; i++) {
     temp[i] = message[i]; 
   } 
-
-  cout << "In writeToServer: length("<<temp_len<<") message("<<message<<")"<<endl;
-  cout << "-----------------"<<endl;
 
   socket->write(temp,temp_len);
 } 

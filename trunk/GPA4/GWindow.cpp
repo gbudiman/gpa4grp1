@@ -11,9 +11,9 @@
 #include "render2D.h"
 #include "render3D.h"
 #include <QtGui>
-#include <iostream>
 #include <vector>
 #include <string>
+
 using namespace std;
 
 GWindow::GWindow() {
@@ -38,12 +38,8 @@ GWindow::GWindow() {
     connect(client,SIGNAL(getConnectionData()),this,SLOT(returnConnectionData()));
     connect(client,SIGNAL(errorConnecting(int)),this,SLOT(connectionError(int)));
     connect(client, SIGNAL(weWon(bool)),this,SLOT(displayOutcome(bool)));
-    connect(client, SIGNAL(setGUIState(string,string)),this,SLOT(updateGuiState(string, string)));
+    connect(client, SIGNAL(setGUIState(vector<string> &, string)),this,SLOT(updateGuiState(vector<string> &,string)));
     connect(connectButton, SIGNAL(clicked()), client, SLOT(connectToHost()));
-
-    //All other connections
-    connect(this,SIGNAL(addtoCommandsText(QString)),sequenceText,SLOT(append(QString)));
-    connect(this,SIGNAL(addtoStateText(QString)),stateText,SLOT(append(QString)));
 }
 
 void GWindow::connectionError(int type){
@@ -91,56 +87,66 @@ void GWindow::createConnectionMenu() {
     horizontalGroupBox->setLayout(layout);
 }
 
-void GWindow::updateGuiState(string s, string c){
+void GWindow::updateGuiState(vector<string> & commands, string state){
+//Initialize GUI to state  
   //update the 2d viewer
-  r2->setState(s);
+  
+  r2->setState(state);
+   
   //update the 3d viewer
-  temp_cube.setState(s);
+  temp_cube.setState(state);
   r3->setCube(&temp_cube);
   //add state to state text box
-  QString temp = QString::fromStdString(s);
+  QString temp = QString::fromStdString(state);
+  QString temp2;
   temp.append("\n");
-  emit addtoStateText(temp);
-  //delete(&temp); 
-  //add command to command text box
-  if(!c.empty()){
-    QString temp2 = QString::fromStdString(c);
+  stateText->append(temp);
+  r2->update();
+  r3->update();
+  stateText->update();
+  sequenceText->update();
+  sleep(5);
+  for(int i = 0; i < (int) commands.size(); i++) {
+    //For each element, perform the command
+    temp_cube.process(commands.at(i));
+    string temp_state = temp_cube.display();
+    //update the 2d viewer
+    r2->setState(temp_state);
+    //update the 3d viewer
+    temp_cube.setState(temp_state);
+    r3->setCube(&temp_cube);
+    
+    //add state to state text box
+    temp = QString::fromStdString(temp_state);
+    temp.append("\n");
+    stateText->append(temp);
+    //add command to command text box
+    temp2 = QString::fromStdString(commands.at(i));
     if(commands_counter == 10){
-      temp.append("\n");
+      temp2.append("\n");
       commands_counter = 0;
     }else{
       commands_counter++;
     }
-    emit addtoCommandsText(temp);
-    //delete(&temp);
+    sequenceText->append(temp2);
+    r2->update();
+    r3->update();
+    stateText->update();
+    sequenceText->update();
+    sleep(5);
   }
   return;
 }
 
-/*
-void GWindow::update3dState(string s){
-  precube->setState(s);
-}
-void GWindow::reset2dState() {
-  r2->setState("YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW");
-}
-void GWindow::reset3dState(){
-  precube->setState("YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW");	
-}*/
-
 void GWindow::create2Dview() {
     r2 = new render2D();
     r2->setState("OYYBYYBYYBRRBRRBRRYGGYGGYRROOOOOOGGGBBWBBWOOWGWWGWWRWW");
-   // connect(client, SIGNAL(client::resetGUIState(string)),this,SLOT(reset2dState(string)));
     r2->setMinimumHeight(300);
     r2->setMinimumWidth(400);
     r2->update();
 }
 
 void GWindow::returnConnectionData(){
-  cout << "returnConnectionData" << endl;;
-  cout << portText->text().toStdString() << " " << serverText->text().toStdString() << endl;
-  cout << "-------" << endl;
   emit sendConnectionData(portText->text().toStdString(),serverText->text().toStdString());
   return; 
 }
@@ -149,8 +155,6 @@ void GWindow::create3Dview() {
     r3 = new render3D();
     rubik* precube = new rubik();
     precube->setState("OYYBYYBYYBRRBRRBRRYGGYGGYRROOOOOOGGGBBWBBWOOWGWWGWWRWW");
-   // connect(client, SIGNAL(client::setGUIState(string)),this,SLOT(update3dState(string)));
-   // connect(client, SIGNAL(client::resetGUIState(string)),this,SLOT(reset2dState(string)));
     vector<int> aori;
     aori.push_back(0);
     aori.push_back(1);
