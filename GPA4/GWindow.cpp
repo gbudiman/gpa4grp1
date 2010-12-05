@@ -3,6 +3,7 @@
  * Author: gbudiman
  * 
  * Created on November 30, 2010, 8:03 PM
+ * 126.46.76.162
  */
 
 #include "GWindow.h"
@@ -30,17 +31,23 @@ GWindow::GWindow() {
     setWindowTitle("GPA 4 Group 1");
     
     client = new GPA4Client(this);
+    commands_counter = 0; 
 
+    //Connections involving client
     connect(this,SIGNAL(sendConnectionData(string,string)),client,SLOT(updateConnectionData(string,string)));
     connect(client,SIGNAL(getConnectionData()),this,SLOT(returnConnectionData()));
     connect(client,SIGNAL(errorConnecting(int)),this,SLOT(connectionError(int)));
     connect(client, SIGNAL(weWon(bool)),this,SLOT(displayOutcome(bool)));
-    connect(client, SIGNAL(setGUIState(string)),this,SLOT(updateGuiState(string)));
+    connect(client, SIGNAL(setGUIState(string,string)),this,SLOT(updateGuiState(string, string)));
+    connect(connectButton, SIGNAL(clicked()), client, SLOT(connectToHost()));
+
+    //All other connections
+    connect(this,SIGNAL(addtoCommandsText(QString)),sequenceText,SLOT(append(QString)));
+    connect(this,SIGNAL(addtoStateText(QString)),stateText,SLOT(append(QString)));
 }
 
 void GWindow::connectionError(int type){
   switch(type) {
-
 
    case 1:
      QMessageBox::information(this, tr("GPA4 Group 1 Client"),
@@ -84,12 +91,30 @@ void GWindow::createConnectionMenu() {
     horizontalGroupBox->setLayout(layout);
 }
 
-void GWindow::updateGuiState(string s){
+void GWindow::updateGuiState(string s, string c){
   //update the 2d viewer
   r2->setState(s);
   //update the 3d viewer
   temp_cube.setState(s);
   r3->setCube(&temp_cube);
+  //add state to state text box
+  QString temp = QString::fromStdString(s);
+  temp.append("\n");
+  emit addtoStateText(temp);
+  //delete(&temp); 
+  //add command to command text box
+  if(!c.empty()){
+    QString temp2 = QString::fromStdString(c);
+    if(commands_counter == 10){
+      temp.append("\n");
+      commands_counter = 0;
+    }else{
+      commands_counter++;
+    }
+    emit addtoCommandsText(temp);
+    //delete(&temp);
+  }
+  return;
 }
 
 /*
@@ -113,7 +138,11 @@ void GWindow::create2Dview() {
 }
 
 void GWindow::returnConnectionData(){
+  cout << "returnConnectionData" << endl;;
+  cout << portText->text().toStdString() << " " << serverText->text().toStdString() << endl;
+  cout << "-------" << endl;
   emit sendConnectionData(portText->text().toStdString(),serverText->text().toStdString());
+  return; 
 }
 
 void GWindow::create3Dview() {
