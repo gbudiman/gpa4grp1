@@ -36,12 +36,12 @@ class GPA4Client : public QObject
  
     //QNetworkSession *networkSession;
     void writeToServer(string message);
-    void puzzleSolved(vector<string> & commands);
+    void puzzleSolved(vector<string> & commands, string state);
     void convertCommands(vector<int> & coded_cmd, vector<string> & commands);
 
   signals:
     
-    void setGUIState(string state, string command);
+    void setGUIState(vector<string> & commands, string state);
     void weWon(bool t);
     void getConnectionData();
     void errorConnecting(int type);

@@ -23,20 +23,12 @@ public:
     void create2Dview();
     void create3Dview();
     virtual ~GWindow();
-/*
-public slots:
-    void update2dState(string s);
-    void update3dState(string s);
-    void reset2dState();
-    void reset3dState();
-    void displayOutcome(bool k);
-*/
 
 private slots:
     void returnConnectionData();
     void connectionError(int type);
     void displayOutcome(bool k);
-    void updateGuiState(string s, string c);
+    void updateGuiState(vector<string> & commands, string state);
 
 private:
     void createConnectionMenu();
@@ -65,8 +57,6 @@ private:
 	
 signals:
     void sendConnectionData(string port, string server);
-    void addtoCommandsText(QString);
-    void addtoStateText(QString);
 };
 
 #endif	/* _GWINDOW_H */

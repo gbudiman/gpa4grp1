@@ -18,7 +18,7 @@ render2D::~render2D() {
 
 void render2D::setState(string state) {
     cubeState = state;
-    update();
+    this->update();
 }
 
 void render2D::paintEvent(QPaintEvent*) {

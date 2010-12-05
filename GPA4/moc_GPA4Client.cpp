@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'GPA4Client.h'
 **
-** Created: Sat Dec 4 21:55:24 2010
+** Created: Sat Dec 4 22:50:53 2010
 **      by: The Qt Meta Object Compiler version 59 (Qt 4.4.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -28,25 +28,26 @@ static const uint qt_meta_data_GPA4Client[] = {
        0,    0, // enums/sets
 
  // signals: signature, parameters, type, tag, flags
-      26,   12,   11,   11, 0x05,
-      55,   53,   11,   11, 0x05,
-      67,   11,   11,   11, 0x05,
-      92,   87,   11,   11, 0x05,
+      27,   12,   11,   11, 0x05,
+      65,   63,   11,   11, 0x05,
+      77,   11,   11,   11, 0x05,
+     102,   97,   11,   11, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     113,   11,   11,   11, 0x08,
-     129,   11,   11,   11, 0x08,
-     154,  142,   11,   11, 0x08,
-     209,  197,   11,   11, 0x08,
+     123,   11,   11,   11, 0x08,
+     139,   11,   11,   11, 0x08,
+     164,  152,   11,   11, 0x08,
+     219,  207,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_GPA4Client[] = {
-    "GPA4Client\0\0state,command\0"
-    "setGUIState(string,string)\0t\0weWon(bool)\0"
-    "getConnectionData()\0type\0errorConnecting(int)\0"
-    "connectToHost()\0getCommand()\0socketError\0"
+    "GPA4Client\0\0commands,state\0"
+    "setGUIState(vector<string>&,string)\0"
+    "t\0weWon(bool)\0getConnectionData()\0"
+    "type\0errorConnecting(int)\0connectToHost()\0"
+    "getCommand()\0socketError\0"
     "displayError(QAbstractSocket::SocketError)\0"
     "port,server\0updateConnectionData(string,string)\0"
 };
@@ -76,7 +77,7 @@ int GPA4Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: setGUIState((*reinterpret_cast< string(*)>(_a[1])),(*reinterpret_cast< string(*)>(_a[2]))); break;
+        case 0: setGUIState((*reinterpret_cast< vector<string>(*)>(_a[1])),(*reinterpret_cast< string(*)>(_a[2]))); break;
         case 1: weWon((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 2: getConnectionData(); break;
         case 3: errorConnecting((*reinterpret_cast< int(*)>(_a[1]))); break;
@@ -91,7 +92,7 @@ int GPA4Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void GPA4Client::setGUIState(string _t1, string _t2)
+void GPA4Client::setGUIState(vector<string> & _t1, string _t2)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
