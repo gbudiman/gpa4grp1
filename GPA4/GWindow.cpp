@@ -101,8 +101,8 @@ void GWindow::updateGuiState(vector<string> & commands, string state){
   QString temp2;
   temp.append("\n");
   stateText->append(temp);
-  r2->update();
-  r3->update();
+  r2->repaint();
+  r3->repaint();
   stateText->update();
   sequenceText->update();
   sleep(5);
@@ -129,11 +129,11 @@ void GWindow::updateGuiState(vector<string> & commands, string state){
       commands_counter++;
     }
     sequenceText->append(temp2);
-    r2->update();
-    r3->update();
+    r2->repaint();
+    r3->repaint();
     stateText->update();
     sequenceText->update();
-    sleep(5);
+    sleep(2);
   }
   return;
 }
