@@ -42,6 +42,7 @@ void Search::readMoves(string s, vector<int> &result) {
         for (int j = 0; j < 18; j++) {
             if (turn.compare(moves[j]) == 0) {
                 result.push_back(j);
+		break;
             }
         }
     }
@@ -57,14 +58,6 @@ int Search::updateMove(int m) {
 }
 
 string Search::getFinalSolution(string sol, string disable) {
-    const int ROTATE_ONCE = 2;
-    const int TURN_THREE = 3;
-    const int ROTATE_TWICE = 3;
-    const int ROTATE_ONCE_TURN_THREE = 4;
-    const int ROTATE_THREE = 4;
-    const int ROTATE_TWICE_TURN_THREE = 5;
-    const int ROTATE_THREE_TURN_THREE = 6;
-
     readMoves(disable, disableMoves);
     readMoves(sol, solutionMoves);
     for (int i = 12; i < 18; i++) {
@@ -72,32 +65,30 @@ string Search::getFinalSolution(string sol, string disable) {
             allowedRotations.push_back(i - 12);
         }
     }
+
     int move;
     int newMove;
-    int method;
+    int secondMove;
+    int thirdMove;
     int pairMove;
     for (int i = 0; i < (int) solutionMoves.size(); i++) {
         move = updateMove(solutionMoves.at(i));
-        method = 0;
         if (!isMoveDisable(move)) {
             finalSolution.push_back(move);
         } else {
-
-
             for (int r = 0; r < (int) allowedRotations.size(); r++) {
                 newMove = rotationTable[allowedRotations.at(r)][move];
                 if (!isMoveDisable(newMove)) {
-                    //cout << "ROTATE_ONCE" << endl;
+                    //cout << i << " ROTATE_ONCE" << endl;
                     rotationVector.push_back(allowedRotations.at(r));
                     finalSolution.push_back(allowedRotations.at(r) + 12);
                     finalSolution.push_back(newMove);
-                    method = ROTATE_ONCE;
                     goto end;
                 }
             }
 
             if (!isPairMoveDisable(move)) {
-                //cout << "TURN_THREE" << endl;
+                cout << i << " TURN_THREE" << endl;
                 pairMove = getPairMove(move);
 		if((i + 1) < (int) solutionMoves.size()) {
 		    if(solutionMoves.at(i) == solutionMoves.at(i + 1)){
@@ -110,22 +101,19 @@ string Search::getFinalSolution(string sol, string disable) {
                 finalSolution.push_back(pairMove);
                 finalSolution.push_back(pairMove);
                 finalSolution.push_back(pairMove);
-                method = TURN_THREE;
                 goto end;
             }
-
             for (int r = 0; r < (int) allowedRotations.size(); r++) {
                 newMove = rotationTable[allowedRotations.at(r)][move];
                 for (int r2 = 0; r2 < (int) allowedRotations.size(); r2++) {
-                    newMove = rotationTable[allowedRotations.at(r2)][newMove];
-                    if (!isMoveDisable(newMove)) {
-                        //cout << "ROTATE_TWICE" << endl;
+                    secondMove = rotationTable[allowedRotations.at(r2)][newMove];
+                    if (!isMoveDisable(secondMove)) {
+                        //cout << i << " ROTATE_TWICE" << endl;
                         rotationVector.push_back(allowedRotations.at(r));
                         rotationVector.push_back(allowedRotations.at(r2));
                         finalSolution.push_back(allowedRotations.at(r) + 12);
                         finalSolution.push_back(allowedRotations.at(r2) + 12);
-                        finalSolution.push_back(newMove);
-                        method = ROTATE_TWICE;
+                        finalSolution.push_back(secondMove);
                         goto end;
                     }
                 }
@@ -134,19 +122,18 @@ string Search::getFinalSolution(string sol, string disable) {
 	    for (int r = 0; r < (int) allowedRotations.size(); r++) {
                 newMove = rotationTable[allowedRotations.at(r)][move];
                 for (int r2 = 0; r2 < (int) allowedRotations.size(); r2++) {
-                    newMove = rotationTable[allowedRotations.at(r2)][newMove];
+                    secondMove = rotationTable[allowedRotations.at(r2)][newMove];
                     for (int r3 = 0; r3 < (int) allowedRotations.size(); r3++) {
-                        newMove = rotationTable[allowedRotations.at(r3)][newMove];
-                        if (!isMoveDisable(newMove)) {
-                            //cout << "ROTATE_THREE" << endl;
+                        thirdMove = rotationTable[allowedRotations.at(r3)][secondMove];
+                        if (!isMoveDisable(thirdMove)) {
+                            //cout<< i << " ROTATE_THREE" << endl;
                             rotationVector.push_back(allowedRotations.at(r));
                             rotationVector.push_back(allowedRotations.at(r2));
                             rotationVector.push_back(allowedRotations.at(r3));
                             finalSolution.push_back(allowedRotations.at(r) + 12);
                             finalSolution.push_back(allowedRotations.at(r2) + 12);
                             finalSolution.push_back(allowedRotations.at(r3) + 12);
-                            finalSolution.push_back(newMove);
-                            method = ROTATE_THREE;
+                            finalSolution.push_back(thirdMove);
                             goto end;
                         }
                     }
@@ -156,7 +143,7 @@ string Search::getFinalSolution(string sol, string disable) {
             for (int r = 0; r < (int) allowedRotations.size(); r++) {
                 newMove = rotationTable[allowedRotations.at(r)][move];
                 if (!isPairMoveDisable(newMove)) {
-                    //cout << "ROTATE_ONCE_TURN_THREE" << endl;
+                    //cout<< i << " ROTATE_ONCE_TURN_THREE" << endl;
                     pairMove = getPairMove(newMove);
 		    rotationVector.push_back(allowedRotations.at(r));
                     finalSolution.push_back(allowedRotations.at(r) + 12);
@@ -171,7 +158,6 @@ string Search::getFinalSolution(string sol, string disable) {
                     finalSolution.push_back(pairMove);
                     finalSolution.push_back(pairMove);
                     finalSolution.push_back(pairMove);
-                    method = ROTATE_ONCE_TURN_THREE;
                     goto end;
                 }
             }
@@ -179,10 +165,10 @@ string Search::getFinalSolution(string sol, string disable) {
             for (int r = 0; r < (int) allowedRotations.size(); r++) {
                 newMove = rotationTable[allowedRotations.at(r)][move];
                 for (int r2 = 0; r2 < (int) allowedRotations.size(); r2++) {
-                    newMove = rotationTable[allowedRotations.at(r2)][newMove];
-                    if (!isPairMoveDisable(newMove)) {
-                        //cout << "ROTATE_TWICE_TURN_THREE" << endl;
-                        pairMove = getPairMove(newMove);
+                    secondMove = rotationTable[allowedRotations.at(r2)][newMove];
+                    if (!isPairMoveDisable(secondMove)) {
+                        //cout<< i << " ROTATE_TWICE_TURN_THREE" << endl;
+                        pairMove = getPairMove(secondMove);
 			rotationVector.push_back(allowedRotations.at(r));
 			rotationVector.push_back(allowedRotations.at(r2));
                     	finalSolution.push_back(allowedRotations.at(r) + 12);
@@ -198,7 +184,6 @@ string Search::getFinalSolution(string sol, string disable) {
                         finalSolution.push_back(pairMove);
                         finalSolution.push_back(pairMove);
                         finalSolution.push_back(pairMove);
-                        method = ROTATE_TWICE_TURN_THREE;
                         goto end;
                     }
                 }
@@ -207,12 +192,12 @@ string Search::getFinalSolution(string sol, string disable) {
             for (int r = 0; r < (int) allowedRotations.size(); r++) {
                 newMove = rotationTable[allowedRotations.at(r)][move];
                 for (int r2 = 0; r2 < (int) allowedRotations.size(); r2++) {
-                    newMove = rotationTable[allowedRotations.at(r2)][newMove];
+                    secondMove = rotationTable[allowedRotations.at(r2)][newMove];
                     for (int r3 = 0; r3 < (int) allowedRotations.size(); r3++) {
-                        newMove = rotationTable[allowedRotations.at(r3)][newMove];
-                        if (!isPairMoveDisable(newMove)) {
-                            //cout << "ROTATE_THREE_TURN_THREE" << endl;
-                            pairMove = getPairMove(newMove);
+                        thirdMove = rotationTable[allowedRotations.at(r3)][secondMove];
+                        if (!isPairMoveDisable(thirdMove)) {
+                            //cout << i << " ROTATE_THREE_TURN_THREE" << endl;
+                            pairMove = getPairMove(thirdMove);
 			    rotationVector.push_back(allowedRotations.at(r));
 			    rotationVector.push_back(allowedRotations.at(r2));
 			    rotationVector.push_back(allowedRotations.at(r3));
@@ -230,14 +215,12 @@ string Search::getFinalSolution(string sol, string disable) {
                             finalSolution.push_back(pairMove);
                             finalSolution.push_back(pairMove);
                             finalSolution.push_back(pairMove);
-                            method = ROTATE_THREE_TURN_THREE;
                             goto end;
                         }
 
                     }
                 }
             }
-	cout<< "NOTHING" << endl;
 end:
             for (int i = 0; i < 1; i++) {
             }
