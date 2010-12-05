@@ -238,11 +238,11 @@ end:
 
 bool Search::isMoveDisable(int move) {
     for (int i = 0; i < (int) disableMoves.size(); i++) {
-        if (move != disableMoves.at(i)) {
-            return true;
+        if (move == disableMoves.at(i)) {
+            return false;
         }
     }
-    return false;
+    return true; 
 }
 
 bool Search::isPairMoveDisable(int move) {
