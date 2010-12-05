@@ -1,0 +1,14 @@
+Acknowledgement:
+	The algorithm to solve rubik's cube in this project is the two-phase-algorithm developed by Kociemba.
+        Please see http://kociemba.org/cube.htm for more details.
+
+Compiling:
+
+        When compiling our project, please use the following qmake commands:
+
+qmake -project QT+=network
+qmake
+make
+
+ 
+
