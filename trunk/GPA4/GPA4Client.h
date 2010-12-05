@@ -7,6 +7,7 @@
 #include <QObject>
 
 #include "rubik.h"
+#include "Search.h"
 
 #define DEFAULT_STATE "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW"
 
@@ -19,7 +20,6 @@ class GPA4Client : public QObject
 
   private slots:
     void connectToHost();
-    void puzzleSolved(vector<string> commands);
     void getCommand();
     void displayError(QAbstractSocket::SocketError socketError);
     void updateConnectionData(string port, string server);
@@ -31,17 +31,17 @@ class GPA4Client : public QObject
     string  temp_state;
     string  port_data;
     string  server_data;
+    QString oldCommand;
+    quint16 blockSize;
  
     //QNetworkSession *networkSession;
     void writeToServer(string message);
-     
-
+    void puzzleSolved(vector<string> & commands);
+    void convertCommands(vector<int> & coded_cmd, vector<string> & commands);
 
   signals:
-    void solvePuzzle(string state, string allowed = NULL);
-    void resetSolver();
     
-    void setGUIState(string state);
+    void setGUIState(string state, string command);
     void weWon(bool t);
     void getConnectionData();
     void errorConnecting(int type);

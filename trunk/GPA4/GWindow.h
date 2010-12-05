@@ -36,7 +36,7 @@ private slots:
     void returnConnectionData();
     void connectionError(int type);
     void displayOutcome(bool k);
-    void updateGuiState(string s);
+    void updateGuiState(string s, string c);
 
 private:
     void createConnectionMenu();
@@ -61,9 +61,12 @@ private:
     render3D* r3;
     string state;
     rubik temp_cube;
+    int commands_counter;
 	
 signals:
     void sendConnectionData(string port, string server);
+    void addtoCommandsText(QString);
+    void addtoStateText(QString);
 };
 
 #endif	/* _GWINDOW_H */

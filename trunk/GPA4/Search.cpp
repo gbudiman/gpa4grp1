@@ -76,7 +76,7 @@ string Search::getFinalSolution(string sol, string disable) {
     int newMove;
     int method;
     int pairMove;
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < (int) solutionMoves.size(); i++) {
         move = updateMove(solutionMoves.at(i));
         method = 0;
         if (!isMoveDisable(move)) {
