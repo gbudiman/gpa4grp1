@@ -1,0 +1,1 @@
+Group 1 GPA4 source control for Fall 2010.  Implements Rubik's cube solver with GUI and client/server communication.  Utilizes QT for server communication and GUI design.
